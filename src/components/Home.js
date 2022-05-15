@@ -1,14 +1,25 @@
 import React, {useEffect} from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { fetchStudents } from '../actions/studentActions';
+import { StudentTable } from './StudentTable';
 
-export default function Home(){
-    useEffect(() => {
-        fetch('api/students')
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-        })
-    },[])
+const mapStateToProps = (state) => ({
+    loading: state.students.loading,
+    students: state.students.students,
+    hasErrors: state.students.hasErrors
+})
 
+const Home = ({loading, students, hasErrors}) =>{
+    const dispatch = useDispatch()
+    useEffect(() => {   
+        dispatch(fetchStudents())
+    }, [dispatch])
+
+    const renderStudents = () => {
+        if(loading) return <h5>Loading...</h5>
+        if(hasErrors) return <h5>Unable to display students</h5>
+        return <StudentTable students={students}/>
+    }
     return (
         <React.Fragment>
             <section className="home-background d-flex justify-content-center align-items-center">
@@ -25,9 +36,16 @@ export default function Home(){
                 </div>
             </section>
             <section className="students-table">
-
+                <div className="container">
+                    <div className="row">
+                        <div className="col-12">
+                            {renderStudents()}
+                        </div>
+                    </div>
+                </div>
             </section>
         </React.Fragment>
-        
     )
 }
+
+export default connect(mapStateToProps)(Home)

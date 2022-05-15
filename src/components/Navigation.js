@@ -7,7 +7,7 @@ export function Navigation() {
         <Navbar bg="light" variant="light">
             <Container>
                 <Navbar.Brand href="/">
-                    <img src="react-logo.png" className="navbar-logo" alt="Logo"/>
+                    <img src="react-logo.svg" className="navbar-logo" alt="Logo"/>
                 </Navbar.Brand>
                 <Navbar.Collapse className="justify-content-end">
                     <Nav>
